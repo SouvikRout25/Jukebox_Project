@@ -1,0 +1,33 @@
+create database if not exists Jukebox_Project;
+use Jukebox_project;
+create table artist(artistname varchar(89) primary key);
+create table gener(genertype varchar(98) primary key);
+create table playlist(playlistId int primary key auto_increment, playlistname varchar(88));
+create table songs(SongId int primary key auto_increment, SongName varchar(98), Duration double, songPath varchar(88), artistname varchar(78), 
+foreign key(artistname) REFERENCES artist(artistname), genertype varchar(98), FOREIGN KEY(genertype) REFERENCES gener(genertype), playlistId int,
+FOREIGN KEY (playlistId) REFERENCES playlist(playlistId));
+create table playlistsong(playlistId int, SongId int);
+drop table playlistsong;
+insert into artist values('pompom');
+insert into gener values ('rock');
+insert into playlist value(1, 'arko');
+insert into songs values(1, 'Soft Piano Music_16000_mono.wav', 2.55, 'src/main/resources/Soft Piano Music_16000_mono.wav', 'pompom', 'rock', 1);
+insert into artist values ('arijit');
+insert into artist values ('mohit');
+insert into artist values ('shreya');
+insert into artist values ('sou');
+insert into gener values ('pop');
+insert into gener values ('romantic');
+insert into gener values ('horror');
+insert into gener values ('dance');
+insert into gener values ('remix');
+insert into songs values (2, 'Kesariya(PagalWorld.com.se).wav', 2.00, 'src/main/resources/Kesariya(PagalWorld.com.se).wav', 'arijit', 'romantic', 1);
+insert into songs values (3, 'Ami Je Tomar(PagalWorld.com.se).wav', 2.00, 'src/main/resources/Ami Je Tomar(PagalWorld.com.se).wav', 'shreya', 'horror', 1);
+insert into songs values (4, 'Srivalli(PagalWorld.com.se).wav', 2.00, 'src/main/resources/Srivalli(PagalWorld.com.se).wav', 'mohit', 'pop', 1);
+insert into songs values (5, 'Saami-Saami_PagalWorld.com.se_.wav', 2.00, 'src/main/resources/Saami-Saami_PagalWorld.com.se_.wav', 'sou', 'dance', 1);
+insert into songs values (6, 'Bhool Bhulaiyaa 2 Title Track(PagalWorld.com.se).wav', 2.00, 'src/main/resources/Bhool Bhulaiyaa 2 Title Track(PagalWorld.com.se).wav', 'sou', 'remix', 1);
+Select SongId, SongName, Duration, artistname from songs where SongId = (Select SongId from playlistsong where playlistId IN(1));
+Select s.SongId, s.SongName, s.Duration, s.artistname from songs s natural join playlistsong p where s.SongId IN (Select SongId from playlistsong where playlistId = 4);
+insert into playlistsong values(2,1);
+select SongId from playlistsong where playlistId = 4;
+Select SongId, SongName, Duration, artistname from songs where SongId IN (Select SongId from playlistsong where playlistId = 1);
